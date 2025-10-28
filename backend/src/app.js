@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(bodyParser.json());
 
 app.get('/api/health', (req,res)=> res.json({ok:true, env: process.env.NODE_ENV || 'dev'}));

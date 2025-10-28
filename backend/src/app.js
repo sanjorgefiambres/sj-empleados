@@ -1,16 +1,18 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express from "express";
+import cors from "cors";
+import employeeRoutes from "./routes/employeeRoutes.js";
+import attendanceRoutes from "./routes/attendanceRoutes.js";
+import sanctionRoutes from "./routes/sanctionRoutes.js";
+import payslipRoutes from "./routes/payslipRoutes.js";
 
 const app = express();
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
-app.use(bodyParser.json());
+app.use(express.json());
 
-app.get('/api/health', (req,res)=> res.json({ok:true, env: process.env.NODE_ENV || 'dev'}));
+app.use("/api/empleados", employeeRoutes);
+app.use("/api/asistencias", attendanceRoutes);
+app.use("/api/sanciones", sanctionRoutes);
+app.use("/api/recibos", payslipRoutes);
 
-// Placeholder route list (routes should be added as files in /routes)
-app.use('/api/employees', (req,res)=> res.status(200).json({message:'employees endpoint placeholder'}));
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, ()=> console.log('Backend listening on', PORT));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`✅ Backend corriendo en puerto ${PORT}`));
